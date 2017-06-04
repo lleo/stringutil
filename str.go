@@ -59,8 +59,8 @@ var Digit = StringIncr{
 // Alpha is the configuration struct For `Inc(string)` on upper and lower case
 // alphabetic only strings.
 var Alpha = StringIncr{
-	first:      '0',
-	last:       '9',
+	first:      'A',
+	last:       'z',
 	notAllowed: regexp.MustCompile("[^[:alpha:]]+"),
 }
 
@@ -100,10 +100,10 @@ func (incr StringIncr) Inc(s string) string {
 		switch {
 		case rs[p] == '9':
 			rs[p] = 'A'
-			p--
+			i++
 		case rs[p] == 'Z':
 			rs[p] = 'a'
-			p--
+			i++
 		case rs[p] == incr.last:
 			if p == 0 {
 				rs[p] = incr.first
