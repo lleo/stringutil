@@ -1,82 +1,73 @@
 package stringutil
 
 import (
-	"fmt"
 	"testing"
 )
 
+// s+1 == "0" aka AlphaNum.first
 func TestIncOne(t *testing.T) {
-	var s = Str("")
+	var s string
 
-	fmt.Printf("BEFORE: s = %q\n", s)
+	s = Inc(s)
 
-	s = s.Inc(1)
-
-	fmt.Printf("AFTER: s = %q\n", s)
-
-	if string(s) != "a" {
+	if s != "0" {
 		t.Fail()
 	}
 }
 
-func TestInc27(t *testing.T) {
-	var s = Str("")
+// s+1 == "0" aka AlphaNum.first
+// s+62 == "00" aka all of 0..9 then A..Z then a..Z then add a digit
+func TestInc63(t *testing.T) {
+	var s string
 
-	for i := 0; i < 27; i++ {
-		s = s.Inc(1)
-		fmt.Printf("s++ = %q\n", s)
+	for i := 0; i < 63; i++ {
+		s = Inc(s)
+		//fmt.Printf("s++ = %q\n", s)
 	}
 
-	if string(s) != "aa" {
-		t.Fail()
-	}
-
-}
-
-func TestInc27Alt(t *testing.T) {
-	var s = Str("")
-
-	fmt.Printf("BEFORE s=%q\n", s)
-	s = s.Inc(27)
-	fmt.Printf("AFTER: s = s.Inc(27) = %q\n", s)
-
-	if string(s) != "aa" {
+	if string(s) != "00" {
 		t.Fail()
 	}
 
 }
 
-func TestInc53(t *testing.T) {
-	var s = Str("")
+// var s = "" aka var s string
+// s+1 == "0" aka AlphaNum.first
+// s+62 == "00" aka all of 0..9 then A..Z then a..Z then add a digit
+// s+62 == "10" aka inc the second digit of the string
+func TestInc125(t *testing.T) {
+	var s string
 
-	for i := 0; i < 53; i++ {
-		s = s.Inc(1)
-		fmt.Printf("s++ = %q\n", s)
+	for i := 0; i < 125; i++ {
+		s = Inc(s)
+		//fmt.Printf("s++ = %q\n", s)
 	}
 
-	if string(s) != "ba" {
+	if string(s) != "10" {
 		t.Fail()
 	}
 }
 
-var MAXLEN = 7
+func TestAlphaNumWrap(t *testing.T) {
+	if AlphaNum.Inc("z") != "00" {
+		t.Fail()
+	}
+}
 
-func TestIncLen(t *testing.T) {
-	var s = Str("")
+func TestUpperWrap(t *testing.T) {
+	if Upper.Inc("Z") != "AA" {
+		t.Fail()
+	}
+}
 
-	//s = s.Inc(1) //get off ""
-	s = s.FatInc(1) //get off ""
+func TestLowerIncWrap(t *testing.T) {
+	if Lower.Inc("z") != "aa" {
+		t.Fail()
+	}
+}
 
-	var l int
-	var lastLen = len(s)
-	for i := 0; l < MAXLEN; i++ {
-		//s = s.Inc(1)
-		s = s.FatInc(1)
-		l = len(s)
-		if l > lastLen {
-			fmt.Printf("s = %s\n", s)
-			fmt.Printf("current length = %d; last legth = %d; i = %d\n", l, lastLen, i)
-			lastLen = l
-		}
+func TestDigitIncWrap(t *testing.T) {
+	if Digit.Inc("9") != "00" {
+		t.Fail()
 	}
 }
